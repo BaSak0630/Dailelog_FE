@@ -1,23 +1,35 @@
 <script setup lang="ts">
-
 import { reactive } from 'vue'
 import Login from '@/entity/user/Login'
-import axios from 'axios'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+import type HttpError from '@/http/HttpError'
+import UserRepository from '@/repository/UserRepository'
+import { container } from 'tsyringe'
 
 const state = reactive({
   login: new Login(),
-});
+})
 
-function doLogin(){
-  axios.post('/api/auth/login',state.login)
+const USER_REPOSITORY = container.resolve(UserRepository)
+
+function doLogin() {
+  USER_REPOSITORY.login(state.login)
+    .then(() => {
+      ElMessage({ type: 'success', message: '환영합니다 :)' })
+      location.href = '/'
+    })
+    .catch((e: HttpError) => {
+      ElMessage({ type: 'error', message: e.getMessage() })
+    })
 }
 </script>
+
 <template>
   <el-row>
     <el-col :span="10" :offset="7">
       <el-form label-position="top">
-
-        <el-form-item label="아이디">
+        <el-form-item label="이메일">
           <el-input v-model="state.login.account"></el-input>
         </el-form-item>
 
@@ -28,7 +40,6 @@ function doLogin(){
         <el-form-item>
           <el-button type="primary" style="width: 100%" @click="doLogin()">로그인</el-button>
         </el-form-item>
-
       </el-form>
     </el-col>
   </el-row>
