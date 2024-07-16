@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type Post from '@/entity/post/Post'
-import { onMounted, reactive } from 'vue'
-import { container } from 'tsyringe'
-import PostRepository from '@/repository/PostRepository'
-import Paging from '@/entity/data/Paging'
 import PostComponent from '@/components/PostComponent.vue'
+import Paging from '@/entity/data/Paging'
+import type Post from '@/entity/post/Post'
+import PostRepository from '@/repository/PostRepository'
+import { container } from 'tsyringe'
+import { onMounted, reactive } from 'vue'
 
 const POST_REPOSITORY = container.resolve(PostRepository)
 
@@ -13,7 +13,7 @@ type StateType = {
 }
 
 const state = reactive<StateType>({
-  postList: new Paging<Post>(),
+  postList: new Paging<Post>()
 })
 
 function getList(page = 1) {
@@ -33,15 +33,15 @@ onMounted(() => {
 
     <ul class="posts">
       <li v-for="post in state.postList.items" :key="post.id">
-        <PostComponent :post="post" />
+        <PostComponent :post="post as Post" />
       </li>
     </ul>
 
     <div style="width: 100%; display: flex; justify-content: center">
       <el-pagination
-        :background="true"
-        layout="prev, pager, next"
+        :babelParse="true"
         v-model:current-page="state.postList.page"
+        layout="prev, pager, next"
         :total="state.postList.totalCount"
         :default-page-size="3"
         @current-change="(page: number) => getList(page)"

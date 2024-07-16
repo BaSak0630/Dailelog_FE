@@ -1,7 +1,6 @@
 <template>
   <div class="header">
-    <img src="/images/logo.png" alt="logo" class="logo"/>
-    <div class="title">호돌맨 블로그</div>
+    <div class="title">Dailelog</div>
   </div>
 </template>
 
@@ -12,7 +11,7 @@
   height: 60px;
   margin: 1rem 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 }
 

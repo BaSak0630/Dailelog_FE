@@ -1,8 +1,8 @@
-import AxiosHttpClient, { type HttpRequestConfig } from '@/http/AxiosHttpClient'
-import { inject, singleton } from 'tsyringe'
-import { plainToInstance } from 'class-transformer'
 import Null from '@/entity/data/Null'
 import Paging from '@/entity/data/Paging'
+import AxiosHttpClient, { type HttpRequestConfig } from '@/http/AxiosHttpClient'
+import { plainToInstance } from 'class-transformer'
+import { inject, singleton } from 'tsyringe'
 
 @singleton()
 export default class HttpRepository {
@@ -31,7 +31,7 @@ export default class HttpRepository {
     return this.httpClient
       .request({
         ...config,
-        method: 'PATCH',
+        method: 'PATCH'
       })
       .then((response) => plainToInstance(clazz !== null ? clazz : Null, response))
   }

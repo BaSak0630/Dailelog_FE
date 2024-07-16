@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
 import Login from '@/entity/user/Login'
-import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
 import type HttpError from '@/http/HttpError'
 import UserRepository from '@/repository/UserRepository'
+import { ElMessage } from 'element-plus'
 import { container } from 'tsyringe'
+import { reactive } from 'vue'
 
 const state = reactive({
-  login: new Login(),
+  login: new Login()
 })
 
 const USER_REPOSITORY = container.resolve(UserRepository)
@@ -16,11 +15,13 @@ const USER_REPOSITORY = container.resolve(UserRepository)
 function doLogin() {
   USER_REPOSITORY.login(state.login)
     .then(() => {
-      ElMessage({ type: 'success', message: '환영합니다 :)' })
-      location.href = '/'
+      ElMessage({ type: 'success', message: '환영합니다 :) ' })
+      setTimeout(() => {
+        location.href = '/'
+      }, 400)
     })
     .catch((e: HttpError) => {
-      ElMessage({ type: 'error', message: e.getMessage() })
+      ElMessage({ type: 'error', message: e.toString() })
     })
 }
 </script>

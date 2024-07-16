@@ -1,7 +1,6 @@
-import axios, { type AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios'
-import { ElMessage } from 'element-plus'
-import HttpError from '@/http/HttpError'
-import { injectable, singleton } from 'tsyringe'
+import axios, { type AxiosError, type AxiosInstance, type AxiosResponse } from 'axios'
+import { singleton } from 'tsyringe'
+import HttpError from './HttpError'
 
 export type HttpRequestConfig = {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE'
@@ -14,7 +13,7 @@ export type HttpRequestConfig = {
 export default class AxiosHttpClient {
   private readonly client: AxiosInstance = axios.create({
     timeout: 3000,
-    timeoutErrorMessage: '힝..',
+    timeoutErrorMessage: '요청 시간이 초과되었습니다. '
   })
 
   public async request(config: HttpRequestConfig) {
@@ -23,13 +22,14 @@ export default class AxiosHttpClient {
         method: config.method,
         url: config.path,
         params: config.params,
-        data: config.body,
+        data: config.body
       })
       .then((response: AxiosResponse) => {
         return response.data
       })
       .catch((e: AxiosError) => {
-        return Promise.reject(new HttpError(e))
+        const error = new HttpError(e)
+        return Promise.reject(error)
       })
   }
 }

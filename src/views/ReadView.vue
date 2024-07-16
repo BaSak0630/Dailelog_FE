@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Comments from '@/components/Comments.vue'
-import { onMounted, reactive } from 'vue'
-import { container } from 'tsyringe'
-import PostRepository from '@/repository/PostRepository'
 import Post from '@/entity/post/Post'
+import type HttpError from '@/http/HttpError'
+import PostRepository from '@/repository/PostRepository'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { container } from 'tsyringe'
+import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{
@@ -18,7 +19,7 @@ type StateType = {
 }
 
 const state = reactive<StateType>({
-  post: new Post(),
+  post: new Post()
 })
 
 function getPost() {
@@ -38,12 +39,16 @@ function remove() {
     title: '삭제',
     confirmButtonText: '삭제',
     cancelButtonText: '취소',
-    type: 'warning',
+    type: 'warning'
   }).then(() => {
-    POST_REPOSITORY.delete(props.postId).then(() => {
-      ElMessage({ type: 'success', message: '성공적으로 삭제되었습니다.' })
-      router.back()
-    })
+    POST_REPOSITORY.delete(props.postId)
+      .then(() => {
+        ElMessage({ type: 'success', message: '성공적으로 삭제되었습니다.' })
+        router.back()
+      })
+      .catch((error: HttpError) => {
+        ElMessage({ type: 'error', message: error.toString() })
+      })
   })
 }
 
