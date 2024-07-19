@@ -1,4 +1,5 @@
 import Post from '@/entity/post/Post'
+import PostEdit from '@/entity/post/PostEdit'
 import type PostWrite from '@/entity/post/PostWrite'
 import HttpRepository from '@/repository/HttpRepository'
 import { inject, singleton } from 'tsyringe'
@@ -31,5 +32,14 @@ export default class PostRepository {
     return this.httpRepository.delete({
       path: `/api/posts/${postId}`
     })
+  }
+
+  public update(postId: number) {
+    return this.httpRepository.patch(
+      {
+        path: `/api/posts/${postId}`
+      },
+      PostEdit
+    )
   }
 }

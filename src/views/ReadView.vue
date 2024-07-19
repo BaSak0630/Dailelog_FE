@@ -52,6 +52,10 @@ function remove() {
   })
 }
 
+function update() {
+  router.push(`/update/${props.postId}`)
+}
+
 onMounted(() => {
   getPost()
 })
@@ -79,7 +83,7 @@ onMounted(() => {
       </div>
 
       <div class="footer">
-        <div class="edit">수정</div>
+        <div class="edit" @click="update()">수정</div>
         <div class="delete" @click="remove()">삭제</div>
       </div>
     </el-col>
