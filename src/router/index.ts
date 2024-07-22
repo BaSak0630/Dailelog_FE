@@ -1,3 +1,4 @@
+import EditView from '@/views/EditView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import ReadView from '@/views/ReadView.vue'
@@ -26,6 +27,12 @@ const router = createRouter({
       path: '/post/:postId',
       name: 'post',
       component: ReadView,
+      props: true
+    },
+    {
+      path: '/edit/:postId',
+      name: 'edit',
+      component: EditView,
       props: true
     }
   ]

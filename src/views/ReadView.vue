@@ -53,7 +53,7 @@ function remove() {
 }
 
 function update() {
-  router.push(`/update/${props.postId}`)
+  router.push(`/edit/${props.postId}`)
 }
 
 onMounted(() => {
