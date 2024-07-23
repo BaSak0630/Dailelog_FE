@@ -34,12 +34,10 @@ export default class PostRepository {
     })
   }
 
-  public update(postId: number) {
-    return this.httpRepository.patch(
-      {
-        path: `/api/posts/${postId}`
-      },
-      PostEdit
-    )
+  public update(postId: number, request: PostEdit) {
+    return this.httpRepository.patch({
+      path: `/api/posts/${postId}`,
+      body: request
+    })
   }
 }
