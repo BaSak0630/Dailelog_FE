@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Comments from '@/components/Comments.vue'
+import { default as CommentList } from '@/entity/comment/CommentList'
 import Post from '@/entity/post/Post'
 import type HttpError from '@/http/HttpError'
 import PostRepository from '@/repository/PostRepository'
@@ -16,16 +17,20 @@ const POST_REPOSITORY = container.resolve(PostRepository)
 
 type StateType = {
   post: Post
+  commentList: CommentList<Comment>
 }
 
 const state = reactive<StateType>({
-  post: new Post()
+  post: new Post(),
+  commentList: new CommentList<Comment>()
 })
 
 function getPost() {
   POST_REPOSITORY.get(props.postId)
     .then((post: Post) => {
       state.post = post
+      state.commentList = new CommentList<Comment>()
+      state.commentList.setComments(post.comments, post.comments.length)
     })
     .catch((e) => {
       console.error(e)
@@ -89,11 +94,7 @@ onMounted(() => {
     </el-col>
   </el-row>
 
-  <el-row class="comments">
-    <el-col>
-      <Comments />
-    </el-col>
-  </el-row>
+  <Comments :commentList="state.commentList" />
 </template>
 
 <style scoped lang="scss">

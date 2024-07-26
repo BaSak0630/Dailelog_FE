@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import Comment from '@/components/Comment.vue'
+import type Comment from '@/entity/comment/Comment'
+import CommentList from '@/entity/comment/CommentList'
+import CommentComponent from './CommentComponent.vue'
+
+const props = defineProps<{
+  commentList: CommentList<Comment>
+}>()
 </script>
 
 <template>
-  <div class="totalCount">댓글 0개</div>
+  <div class="totalCount">댓글 {{ commentList.totalCount }}개</div>
 
   <div class="write">
     <div class="form">
@@ -29,16 +35,8 @@ import Comment from '@/components/Comment.vue'
   </div>
 
   <ul class="comments">
-    <li class="comment">
-      <Comment />
-    </li>
-
-    <li class="comment">
-      <Comment />
-    </li>
-
-    <li class="comment">
-      <Comment />
+    <li v-for="comment in commentList.items" :key="comment.id" class="comment">
+      <CommentComponent :comment="comment as Comment" />
     </li>
   </ul>
 </template>
