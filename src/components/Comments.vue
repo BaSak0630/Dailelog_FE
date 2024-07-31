@@ -1,11 +1,39 @@
 <script setup lang="ts">
-import type Comment from '@/entity/comment/Comment'
+import Comment from '@/entity/comment/Comment'
 import CommentList from '@/entity/comment/CommentList'
+import CommentWrite from '@/entity/comment/CommentWrite'
+import type HttpError from '@/http/HttpError'
+import CommentRepository from '@/repository/CommentRepository'
+import { ElMessage } from 'element-plus'
+import { container } from 'tsyringe'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import CommentComponent from './CommentComponent.vue'
+
+const state = reactive({
+  CommentWrite: new CommentWrite()
+})
+
+const COMMENT_REPOSITORY = container.resolve(CommentRepository)
 
 const props = defineProps<{
   commentList: CommentList<Comment>
+  postId: number
 }>()
+
+const router = useRouter()
+
+function CommentPost() {
+  COMMENT_REPOSITORY.write(state.CommentWrite, props.postId)
+    .then(() => {
+      console.log('success')
+      ElMessage({ type: 'success', message: '댓글 등록이 완료되었습니다.' })
+      router.replace('/')
+    })
+    .catch((e: HttpError) => {
+      ElMessage({ type: 'error', message: e.getMessage() })
+    })
+}
 </script>
 
 <template>
@@ -16,22 +44,27 @@ const props = defineProps<{
       <div class="section">
         <div>
           <label for="author">작성자</label>
-          <el-input id="author" placeholder="밥돌맨"></el-input>
+          <el-input v-model="state.CommentWrite.author" placeholder="id"></el-input>
         </div>
 
         <div>
           <label for="password">비밀번호</label>
-          <el-input type="password" id="password" placeholder="비밀번호"></el-input>
+          <el-input type="password" v-model="state.CommentWrite.password"></el-input>
         </div>
       </div>
 
       <div class="content">
         <label for="password">내용</label>
-        <el-input id="content" type="textarea" :rows="5" :autosize="{ minRows: 5, maxRows: 4 }"></el-input>
+        <el-input
+          v-model="state.CommentWrite.content"
+          type="textarea"
+          :rows="5"
+          :autosize="{ minRows: 5, maxRows: 4 }"
+        ></el-input>
       </div>
     </div>
 
-    <el-button type="primary" class="button">등록하기</el-button>
+    <el-button type="primary" class="button" @clock="CommentPost()">등록하기</el-button>
   </div>
 
   <ul class="comments">

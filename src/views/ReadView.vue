@@ -94,7 +94,7 @@ onMounted(() => {
     </el-col>
   </el-row>
 
-  <Comments :commentList="state.commentList" />
+  <Comments :commentList="state.commentList" :postId="props.postId" />
 </template>
 
 <style scoped lang="scss">

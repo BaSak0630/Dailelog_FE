@@ -1,10 +1,14 @@
 <template>
   <div class="header">
-    <div class="title">Dailelog</div>
+    <div class="title" @click="click()">Dailelog</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+function click() {
+  location.href = '/'
+}
+</script>
 
 <style scoped lang="scss">
 .header {

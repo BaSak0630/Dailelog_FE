@@ -14,7 +14,7 @@ const props = defineProps<{
   <div class="regDate">{{ props.post.getDisplaySimpleRegDate() }}</div>
 
   <div class="content">
-    {{ props.post.content }}
+    {{ props.post.content.substring(0, 100) }}
   </div>
 
   <div class="readMore">
