@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
 import PostWrite from '@/entity/post/PostWrite'
-import { container } from 'tsyringe'
+import type HttpError from '@/http/HttpError'
 import PostRepository from '@/repository/PostRepository'
 import { ElMessage } from 'element-plus'
-import type HttpError from '@/http/HttpError'
+import { container } from 'tsyringe'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 const state = reactive({
-  postWrite: new PostWrite(),
+  postWrite: new PostWrite()
 })
 
 const POST_REPOSITORY = container.resolve(PostRepository)

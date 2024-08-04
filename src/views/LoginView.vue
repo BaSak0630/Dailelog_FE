@@ -30,7 +30,7 @@ function doLogin() {
   <el-row>
     <el-col :span="10" :offset="7">
       <el-form label-position="top">
-        <el-form-item label="이메일">
+        <el-form-item label="아이디">
           <el-input v-model="state.login.account"></el-input>
         </el-form-item>
 
@@ -46,4 +46,4 @@ function doLogin() {
   </el-row>
 </template>
 
-<style scoped lang="scss"></style>
+<style></style>

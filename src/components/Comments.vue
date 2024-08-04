@@ -2,7 +2,6 @@
 import Comment from '@/entity/comment/Comment'
 import CommentList from '@/entity/comment/CommentList'
 import CommentWrite from '@/entity/comment/CommentWrite'
-import type HttpError from '@/http/HttpError'
 import CommentRepository from '@/repository/CommentRepository'
 import { ElMessage } from 'element-plus'
 import { container } from 'tsyringe'
@@ -23,15 +22,14 @@ const props = defineProps<{
 
 const router = useRouter()
 
-function CommentPost() {
+function write() {
   COMMENT_REPOSITORY.write(state.CommentWrite, props.postId)
     .then(() => {
-      console.log('success')
-      ElMessage({ type: 'success', message: '댓글 등록이 완료되었습니다.' })
-      router.replace('/')
+      ElMessage({ type: 'success', message: '댓글이 등록되었습니다.' })
+      router.go(0)
     })
-    .catch((e: HttpError) => {
-      ElMessage({ type: 'error', message: e.getMessage() })
+    .catch((e) => {
+      ElMessage({ type: 'error', message: e.toString() })
     })
 }
 </script>
@@ -44,12 +42,12 @@ function CommentPost() {
       <div class="section">
         <div>
           <label for="author">작성자</label>
-          <el-input v-model="state.CommentWrite.author" placeholder="id"></el-input>
+          <el-input v-model="state.CommentWrite.author" placeholder="작성자"></el-input>
         </div>
 
         <div>
           <label for="password">비밀번호</label>
-          <el-input type="password" v-model="state.CommentWrite.password"></el-input>
+          <el-input type="password" v-model="state.CommentWrite.password" placeholder="비밀번호"></el-input>
         </div>
       </div>
 
@@ -63,8 +61,9 @@ function CommentPost() {
         ></el-input>
       </div>
     </div>
-
-    <el-button type="primary" class="button" @clock="CommentPost()">등록하기</el-button>
+    <el-form-item>
+      <el-button type="primary" class="button" style="width: 100%" @click="write()">댓글 등록</el-button>
+    </el-form-item>
   </div>
 
   <ul class="comments">
@@ -104,6 +103,7 @@ function CommentPost() {
   .button {
     width: 100px;
     align-self: flex-end;
+    margin-left: auto;
   }
 }
 

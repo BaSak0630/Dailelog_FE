@@ -6,18 +6,18 @@ import HttpRepository from './HttpRepository'
 export default class CommentRepository {
   constructor(@inject(HttpRepository) private readonly httpRepository: HttpRepository) {}
 
-  public async write(commentWrite: CommentWrite, postId: number): Promise<void> {
+  public async write(commentWrite: CommentWrite, postId: number) {
     return this.httpRepository.post({
-      path: '/api/posts/${postId}/comments',
+      path: '/api/posts/' + postId + '/comments',
       body: commentWrite
     })
   }
 
-  public async delete(id: number): Promise<void> {
+  public async delete(id: number) {
     return
   }
 
-  public async updateComment(comment: Comment): Promise<void> {
+  public async updateComment(comment: Comment) {
     return
   }
 }

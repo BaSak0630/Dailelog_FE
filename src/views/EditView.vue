@@ -39,7 +39,7 @@ function edit() {
   POST_REPOSITORY.update(props.postId, state.postEdit)
     .then(() => {
       ElMessage({ type: 'success', message: '글 수정이 완료되었습니다.' })
-      router.replace('/')
+      router.replace('/post/' + props.postId)
     })
     .catch((e: HttpError) => {
       ElMessage({ type: 'error', message: e.getMessage() })
