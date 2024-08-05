@@ -36,6 +36,11 @@ function write() {
 
 <template>
   <div class="totalCount">댓글 {{ commentList.totalCount }}개</div>
+  <ul class="comments">
+    <li v-for="comment in commentList.items" :key="comment.id" class="comment">
+      <CommentComponent :comment="comment as Comment" />
+    </li>
+  </ul>
 
   <div class="write">
     <div class="form">
@@ -65,12 +70,6 @@ function write() {
       <el-button type="primary" class="button" style="width: 100%" @click="write()">댓글 등록</el-button>
     </el-form-item>
   </div>
-
-  <ul class="comments">
-    <li v-for="comment in commentList.items" :key="comment.id" class="comment">
-      <CommentComponent :comment="comment as Comment" />
-    </li>
-  </ul>
 </template>
 
 <style scoped lang="scss">
